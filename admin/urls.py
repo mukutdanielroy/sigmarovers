@@ -19,6 +19,10 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+admin.site.site_header = 'Sigma Rovers Real Estate L.L.C'                    # default: "Django Administration"
+# admin.site.index_title = 'Features area'                 # default: "Site administration"
+# admin.site.site_title = 'HTML title from adminsitration'
+
 urlpatterns = [
     path('admin/', admin.site.urls),
 ]
