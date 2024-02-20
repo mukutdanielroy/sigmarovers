@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import PropertyType, PropertyTypeCategory, Property, PropertyImage, Location, Amenity, AddOn, Review, Wishlist, BuyProperty, RentProperty
+from .models import PropertyType, PropertyTypeCategory, Property, PropertyImage, Location, Amenity, AddOn, Review, Wishlist, BuyProperty, RentProperty, Booking
 from django.utils.html import mark_safe
 from django.urls import reverse
 
@@ -126,6 +126,12 @@ class WishlistAdmin(admin.ModelAdmin):
 
     display_properties.short_description = 'Properties'
 
+class BookingAdmin(admin.ModelAdmin):
+    list_display = ['property', 'user', 'check_in_date', 'check_out_date']
+    list_filter = ['property', 'user', 'check_in_date', 'check_out_date']
+    search_fields = ['property__title', 'user__username']
+    date_hierarchy = 'check_in_date'
+
 admin.site.register(PropertyType, PropertyTypeAdmin)
 admin.site.register(PropertyTypeCategory, PropertyTypeCategoryAdmin)
 admin.site.register(Location, LocationAdmin)
@@ -137,3 +143,4 @@ admin.site.register(PropertyImage, PropertyImageAdmin)
 admin.site.register(Property, PropertyAdmin)
 admin.site.register(Review, ReviewAdmin)
 admin.site.register(Wishlist, WishlistAdmin)
+admin.site.register(Booking, BookingAdmin)
