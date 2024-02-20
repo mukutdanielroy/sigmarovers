@@ -26,6 +26,7 @@ admin.site.site_header = 'Sigma Rovers Real Estate L.L.C'                    # d
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('website.urls')),
+    path('', include('property.urls')),
 ]
 
 if settings.DEBUG:
