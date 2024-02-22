@@ -2,6 +2,7 @@ from rest_framework import generics
 from .models import PropertyTypeCategory, BuyProperty, RentProperty, Booking, Property
 from .serializers import PropertyTypeCategorySerializer, BuyPropertySerializer, RentPropertySerializer, BookingSerializer, PropertySerializer
 from rest_framework import viewsets
+from django.db.models import Q
 
 # Create your views here.
 
@@ -33,7 +34,6 @@ class BookingDetailAPIView(generics.RetrieveAPIView):
     queryset = Booking.objects.all()
     serializer_class = BookingSerializer
     
-from django.db.models import Q
 class PropertySearchAPIView(generics.ListAPIView):
     serializer_class = PropertySerializer
 

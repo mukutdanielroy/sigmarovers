@@ -86,7 +86,7 @@ class Property(models.Model):
     amenities = models.ManyToManyField(Amenity, blank=True)
 
     def __str__(self):
-        return f"Title for Property: {self.title}"
+        return f"{self.title}"
 
     class Meta:
         verbose_name_plural = "Properties"
@@ -110,7 +110,7 @@ class RentProperty(Property):
     addons = models.ManyToManyField(AddOn, blank=True)
 
     def __str__(self):
-        return f"Title for Property: {self.title}"
+        return f"{self.title}"
     
     def weekly_price(self):
         if self.weekly_discount_percent is not None:
@@ -141,7 +141,7 @@ class PropertyImage(models.Model):
     image = models.ImageField(upload_to='property_images/')
 
     def __str__(self):
-        return f"Image for Property: {self.property.title}"
+        return f"{self.property.title}"
     
     class Meta:
         verbose_name_plural = "Property Images"
@@ -157,7 +157,7 @@ class Review(models.Model):
         return f"Review by: {self.user.username} for the Property: {self.property.title}"
 
 class Booking(models.Model):
-    property = models.ForeignKey(RentProperty, on_delete=models.CASCADE)
+    property = models.ForeignKey(RentProperty, related_name='rent_property_bookings', on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     check_in_date = models.DateField(default=timezone.now)
     check_out_date = models.DateField(default=timezone.now)

@@ -70,6 +70,11 @@ class AddOnSerializer(serializers.ModelSerializer):
         model = AddOn
         fields = '__all__'
 
+class BookingsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Booking
+        fields = '__all__'
+
 class RentPropertySerializer(serializers.ModelSerializer):
     beds = BedSerializer()
     baths = BathSerializer()
@@ -80,6 +85,7 @@ class RentPropertySerializer(serializers.ModelSerializer):
     property_images = PropertyImageSerializer(many=True)
     property_reviews = ReviewSerializer(many=True)
     addons = AddOnSerializer(many=True)
+    rent_property_bookings = BookingsSerializer(many=True)
 
     weekly_price = serializers.IntegerField(read_only=True)
     monthly_price = serializers.IntegerField(read_only=True)
