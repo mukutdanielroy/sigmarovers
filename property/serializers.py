@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Property, PropertyType, PropertyTypeCategory, BuyProperty, Location, Amenity, PropertyImage, Review, RentProperty, Booking, AddOn
+from .models import Property, PropertyType, PropertyTypeCategory, BuyProperty, Location, Amenity, PropertyImage, Review, RentProperty, Booking, AddOn, Bed, Bath
 
 # Used for now
 from django.contrib.auth.models import User
@@ -41,7 +41,19 @@ class ReviewSerializer(serializers.ModelSerializer):
         model = Review
         fields = '__all__'
 
+class BedSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Bed
+        fields = '__all__'
+
+class BathSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Bath
+        fields = '__all__'
+
 class BuyPropertySerializer(serializers.ModelSerializer):
+    beds = BedSerializer()
+    baths = BathSerializer()
     location = LocationSerializer()
     amenities = AmenitySerializer(many=True)
     property_type = PropertyTypeSerializer()
@@ -59,6 +71,8 @@ class AddOnSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class RentPropertySerializer(serializers.ModelSerializer):
+    beds = BedSerializer()
+    baths = BathSerializer()
     location = LocationSerializer()
     amenities = AmenitySerializer(many=True)
     property_type = PropertyTypeSerializer()
@@ -66,6 +80,10 @@ class RentPropertySerializer(serializers.ModelSerializer):
     property_images = PropertyImageSerializer(many=True)
     property_reviews = ReviewSerializer(many=True)
     addons = AddOnSerializer(many=True)
+
+    weekly_price = serializers.IntegerField(read_only=True)
+    monthly_price = serializers.IntegerField(read_only=True)
+    yearly_price = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = RentProperty

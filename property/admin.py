@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import PropertyType, PropertyTypeCategory, Property, PropertyImage, Location, Amenity, AddOn, Review, Wishlist, BuyProperty, RentProperty, Booking
+from .models import PropertyType, PropertyTypeCategory, Property, PropertyImage, Location, Amenity, AddOn, Review, Wishlist, BuyProperty, RentProperty, Booking, Bed, Bath
 from django.utils.html import mark_safe
 from django.urls import reverse
 
@@ -38,13 +38,13 @@ class ReviewInline(admin.TabularInline):
 
 class BuyPropertyAdmin(admin.ModelAdmin):
     inlines = [PropertyImageInline, ReviewInline]
-    list_display = ['title', 'owner', 'price', 'status', 'bedrooms', 'beds', 'bathrooms', 'area_sqft', 'location', 'property_type', 'property_type_category', 'available']
+    list_display = ['title', 'owner', 'price', 'status', 'bedrooms', 'beds', 'baths', 'area_sqft', 'location', 'property_type', 'property_type_category', 'available']
     list_filter = ['status', 'available']
     search_fields = ['title', 'description', 'owner__username', 'location__name']
 
     fieldsets = (
         (None, {
-            'fields': ('title', 'description', 'owner', 'price', 'status', 'bedrooms', 'beds', 'bathrooms', 'area_sqft', 'location', 'google_map_location', 'available')
+            'fields': ('title', 'description', 'owner', 'price', 'status', 'bedrooms', 'beds', 'baths', 'area_sqft', 'location', 'google_map_location', 'available')
         }),
         ('Property Details', {
             'fields': ('property_type', 'property_type_category', 'amenities')
@@ -55,13 +55,13 @@ class BuyPropertyAdmin(admin.ModelAdmin):
 
 class RentPropertyAdmin(admin.ModelAdmin):
     inlines = [PropertyImageInline, ReviewInline]
-    list_display = ['title', 'owner', 'total_guests', 'price_daily', 'weekly_discount_percent', 'monthly_discount_percent', 'yearly_discount_percent', 'bedrooms', 'beds', 'bathrooms', 'area_sqft', 'location', 'property_type', 'property_type_category', 'available']
+    list_display = ['title', 'owner', 'total_guests', 'price_daily', 'weekly_price', 'monthly_price', 'yearly_price', 'weekly_discount_percent', 'monthly_discount_percent', 'yearly_discount_percent', 'bedrooms', 'beds', 'baths', 'area_sqft', 'location', 'property_type', 'property_type_category', 'available']
     list_filter = ['available']
     search_fields = ['title', 'description', 'owner__username', 'location__name']
 
     fieldsets = (
         (None, {
-            'fields': ('title', 'description', 'owner', 'total_guests', 'bedrooms', 'beds', 'bathrooms', 'area_sqft', 'location', 'google_map_location', 'available')
+            'fields': ('title', 'description', 'owner', 'total_guests', 'bedrooms', 'beds', 'baths', 'area_sqft', 'location', 'google_map_location', 'available')
         }),
         ('Price Details', {
             'fields': ('price_daily', 'weekly_discount_percent', 'monthly_discount_percent', 'yearly_discount_percent')
@@ -86,7 +86,7 @@ class PropertyImageAdmin(admin.ModelAdmin):
 
 class PropertyAdmin(admin.ModelAdmin):
     inlines = [PropertyImageInline, ReviewInline]
-    list_display = list_display = ['title', 'owner', 'bedrooms', 'beds', 'bathrooms', 'area_sqft', 'location', 'available', 'property_type', 'property_type_category']
+    list_display = list_display = ['title', 'owner', 'bedrooms', 'beds', 'baths', 'area_sqft', 'location', 'available', 'property_type', 'property_type_category']
     search_fields = ['title', 'description', 'owner__username', 'location__name']
     actions = None  # Disable all actions
 
@@ -144,3 +144,5 @@ admin.site.register(Property, PropertyAdmin)
 admin.site.register(Review, ReviewAdmin)
 admin.site.register(Wishlist, WishlistAdmin)
 admin.site.register(Booking, BookingAdmin)
+admin.site.register(Bed)
+admin.site.register(Bath)

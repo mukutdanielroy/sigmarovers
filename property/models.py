@@ -58,13 +58,25 @@ class AddOn(models.Model):
     class Meta:
         verbose_name_plural = "Add-on Services"
 
+class Bed(models.Model):
+    number = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return f"{self.number}"
+
+class Bath(models.Model):
+    number = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return f"{self.number}"
+
 class Property(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     bedrooms = models.IntegerField()
-    beds = models.IntegerField()
-    bathrooms = models.IntegerField()
+    beds = models.ForeignKey(Bed, on_delete=models.CASCADE)
+    baths = models.ForeignKey(Bath, on_delete=models.CASCADE)
     area_sqft = models.IntegerField()
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
     google_map_location = models.CharField(max_length=255, blank=True)
@@ -99,6 +111,27 @@ class RentProperty(Property):
 
     def __str__(self):
         return f"Title for Property: {self.title}"
+    
+    def weekly_price(self):
+        if self.weekly_discount_percent is not None:
+            weekly_price = self.price_daily * 7 * (1 - self.weekly_discount_percent / 100)
+        else:
+            weekly_price = self.price_daily * 7
+        return int(weekly_price)
+
+    def monthly_price(self):
+        if self.monthly_discount_percent is not None:
+            monthly_price = self.price_daily * 30 * (1 - self.monthly_discount_percent / 100)
+        else:
+            monthly_price = self.price_daily * 30
+        return int(monthly_price)
+
+    def yearly_price(self):
+        if self.yearly_discount_percent is not None:
+            yearly_price = self.price_daily * 365 * (1 - self.yearly_discount_percent / 100)
+        else:
+            yearly_price = self.price_daily * 365
+        return int(yearly_price)
 
     class Meta:
         verbose_name_plural = "Rent Properties"
