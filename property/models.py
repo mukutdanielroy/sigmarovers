@@ -2,9 +2,7 @@ from django.db import models
 
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils import timezone
-
-# User for now.
-from django.contrib.auth.models import User
+from user.models import CustomUser
 
 # Create your models here.
 class PropertyType(models.Model):
@@ -73,7 +71,7 @@ class Bath(models.Model):
 class Property(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     bedrooms = models.IntegerField()
     beds = models.ForeignKey(Bed, on_delete=models.CASCADE)
     baths = models.ForeignKey(Bath, on_delete=models.CASCADE)
@@ -148,7 +146,7 @@ class PropertyImage(models.Model):
 
 class Review(models.Model):
     property = models.ForeignKey(Property, related_name='property_reviews', on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     rating = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
     comment = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -158,7 +156,7 @@ class Review(models.Model):
 
 class Booking(models.Model):
     property = models.ForeignKey(RentProperty, related_name='rent_property_bookings', on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     check_in_date = models.DateField(default=timezone.now)
     check_out_date = models.DateField(default=timezone.now)
 
@@ -166,7 +164,7 @@ class Booking(models.Model):
         return f"{self.user}'s booking for {self.property} from {self.check_in_date} to {self.check_out_date}"
 
 class Wishlist(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='wishlists')
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='wishlists')
     properties = models.ManyToManyField(Property)
 
     def __str__(self):

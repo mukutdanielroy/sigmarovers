@@ -26,7 +26,12 @@ class RentPropertyDetailAPIView(generics.RetrieveAPIView):
     queryset = RentProperty.objects.all()
     serializer_class = RentPropertySerializer
 
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
+
 class BookingListAPIView(generics.ListAPIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
     queryset = Booking.objects.all()
     serializer_class = BookingSerializer
 
