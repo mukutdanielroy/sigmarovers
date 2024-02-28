@@ -7,6 +7,9 @@ from user.models import CustomUser
 # Create your models here.
 class PropertyType(models.Model):
     name = models.CharField(max_length=100)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
 
     def __str__(self):
         return f"{self.name}"
@@ -17,6 +20,9 @@ class PropertyType(models.Model):
 class PropertyTypeCategory(models.Model):
     property_type = models.ForeignKey(PropertyType, related_name='property_types', on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
 
     def __str__(self):
         return f"Property type: {self.property_type.name}, category: {self.name}"
@@ -31,6 +37,9 @@ STATUS_CHOICES = (
 
 class Location(models.Model):
     name = models.CharField(max_length=100)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
 
     def __str__(self):
         return f"{self.name}"
@@ -38,6 +47,9 @@ class Location(models.Model):
 class Amenity(models.Model):
     name = models.CharField(max_length=100)
     icon = models.CharField(max_length=50, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
 
     def __str__(self):
         return f"{self.name}"
@@ -49,6 +61,8 @@ class Amenity(models.Model):
 class AddOn(models.Model):
     name = models.CharField(max_length=100)
     icon = models.CharField(max_length=50, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"{self.name}"
@@ -58,12 +72,16 @@ class AddOn(models.Model):
 
 class Bed(models.Model):
     number = models.CharField(max_length=50, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"{self.number}"
 
 class Bath(models.Model):
     number = models.CharField(max_length=50, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
 
     def __str__(self):
         return f"{self.number}"
@@ -71,7 +89,7 @@ class Bath(models.Model):
 class Property(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True)
-    owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    contact_person = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     bedrooms = models.IntegerField()
     beds = models.ForeignKey(Bed, on_delete=models.CASCADE)
     baths = models.ForeignKey(Bath, on_delete=models.CASCADE)
@@ -82,6 +100,8 @@ class Property(models.Model):
     property_type = models.ForeignKey(PropertyType, on_delete=models.CASCADE)
     property_type_category = models.ForeignKey(PropertyTypeCategory, on_delete=models.CASCADE)
     amenities = models.ManyToManyField(Amenity, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"{self.title}"
@@ -89,9 +109,24 @@ class Property(models.Model):
     class Meta:
         verbose_name_plural = "Properties"
 
+class Agency(models.Model):
+    name = models.CharField(max_length=100)
+    image = models.ImageField(upload_to='agency_images/', blank=True, null=True)
+    mobile = models.CharField(max_length=20, null=True, blank=True)
+    address = models.TextField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.name}"
+
+    class Meta:
+        verbose_name_plural = "Agencies"
+
 class BuyProperty(Property):
     status = models.CharField(max_length=20, choices=STATUS_CHOICES)
     price = models.IntegerField()
+    agency = models.ForeignKey(Agency, on_delete=models.CASCADE, null=True, blank=True, related_name='buy_properties')
 
     def __str__(self):
         return f"Title for Property: {self.title}"
@@ -106,6 +141,7 @@ class RentProperty(Property):
     monthly_discount_percent = models.IntegerField(default=None, null=True, blank=True)
     yearly_discount_percent = models.IntegerField(default=None, null=True, blank=True)
     addons = models.ManyToManyField(AddOn, blank=True)
+
 
     def __str__(self):
         return f"{self.title}"
@@ -137,6 +173,8 @@ class RentProperty(Property):
 class PropertyImage(models.Model):
     property = models.ForeignKey(Property, related_name='property_images', on_delete=models.CASCADE)
     image = models.ImageField(upload_to='property_images/')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"{self.property.title}"
@@ -150,15 +188,19 @@ class Review(models.Model):
     rating = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
     comment = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"Review by: {self.user.username} for the Property: {self.property.title}"
+        return f"Review by: {self.user.legal_name} for the Property: {self.property.title}"
 
 class Booking(models.Model):
     property = models.ForeignKey(RentProperty, related_name='rent_property_bookings', on_delete=models.CASCADE)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     check_in_date = models.DateField(default=timezone.now)
     check_out_date = models.DateField(default=timezone.now)
+    total_payable = models.IntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"{self.user}'s booking for {self.property} from {self.check_in_date} to {self.check_out_date}"
@@ -166,6 +208,8 @@ class Booking(models.Model):
 class Wishlist(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='wishlists')
     properties = models.ManyToManyField(Property)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"Wishlist for {self.user.username}"
+        return f"Wishlist for {self.user.legal_name}"

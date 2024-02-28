@@ -1,8 +1,9 @@
 from rest_framework import generics
-from .models import PropertyTypeCategory, BuyProperty, RentProperty, Booking, Property
+from .models import PropertyTypeCategory, BuyProperty, RentProperty, Booking
 from .serializers import PropertyTypeCategorySerializer, BuyPropertySerializer, RentPropertySerializer, BookingSerializer, PropertySerializer
 from rest_framework import viewsets
 from django.db.models import Q
+# from rest_framework.permissions import IsAuthenticated
 
 # Create your views here.
 
@@ -28,9 +29,8 @@ class RentPropertyDetailAPIView(generics.RetrieveAPIView):
 
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
-
 class BookingListAPIView(generics.ListAPIView):
-    authentication_classes = [JWTAuthentication]
+    # authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
     queryset = Booking.objects.all()
     serializer_class = BookingSerializer

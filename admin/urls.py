@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from . import views 
 
 admin.site.site_header = 'Sigma Rovers Real Estate L.L.C'                    # default: "Django Administration"
 # admin.site.index_title = 'Features area'                 # default: "Site administration"
@@ -25,6 +26,7 @@ admin.site.site_header = 'Sigma Rovers Real Estate L.L.C'                    # d
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # path('media/government_id_photos/<str:filename>', views.serve_government_id_photo, name='serve_government_id_photo'),
     path('api/', include('website.urls')),
     path('api/', include('property.urls')),
     path('api/', include('user.urls')),
