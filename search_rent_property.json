@@ -1,0 +1,80 @@
+[
+    {
+        "id": 2,
+        "beds": {
+            "id": 1,
+            "number": "1"
+        },
+        "baths": {
+            "id": 1,
+            "number": "1"
+        },
+        "location": {
+            "id": 1,
+            "name": "Dubai"
+        },
+        "amenities": [
+            {
+                "id": 1,
+                "name": "Wifi",
+                "icon": "wifi"
+            }
+        ],
+        "property_type": {
+            "id": 1,
+            "name": "Residential"
+        },
+        "property_type_category": {
+            "id": 1,
+            "name": "Apartment"
+        },
+        "property_images": [
+            {
+                "id": 3,
+                "image": "http://localhost:8000/media/property_images/3_Screenshot_2024-03-02_at_4.43.26PM.png"
+            },
+            {
+                "id": 4,
+                "image": "http://localhost:8000/media/property_images/Screenshot_2024-03-02_at_5.38.11PM.png"
+            }
+        ],
+        "property_reviews": [
+            {
+                "id": 2,
+                "rating": 5,
+                "comment": "Good!",
+                "created_at": "2024-03-04T12:16:02.009568+06:00",
+                "updated_at": "2024-03-04T12:16:02.009578+06:00",
+                "property": 2,
+                "user": 1
+            },
+            {
+                "id": 3,
+                "rating": 4,
+                "comment": "Great!",
+                "created_at": "2024-03-04T12:16:02.010107+06:00",
+                "updated_at": "2024-03-04T12:16:02.010116+06:00",
+                "property": 2,
+                "user": 1
+            }
+        ],
+        "title": "Rent Property 1",
+        "description": "Rent Property 1",
+        "bedrooms": 1,
+        "area_sqft": 1,
+        "google_map_location": "jasdnasndj",
+        "available": true,
+        "created_at": "2024-03-01T13:41:16.148817+06:00",
+        "updated_at": "2024-03-04T16:58:08.688541+06:00",
+        "price_daily": 1000,
+        "total_guests": 1,
+        "weekly_discount_percent": 3,
+        "monthly_discount_percent": 5,
+        "yearly_discount_percent": 7,
+        "contact_person": 1,
+        "addons": [
+            1
+        ],
+        "avg_rating": 4.5
+    }
+]

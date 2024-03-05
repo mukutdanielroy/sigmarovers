@@ -1,0 +1,73 @@
+[
+    {
+        "id": 1,
+        "beds": {
+            "id": 2,
+            "number": "2"
+        },
+        "baths": {
+            "id": 2,
+            "number": "2"
+        },
+        "location": {
+            "id": 1,
+            "name": "Dubai"
+        },
+        "amenities": [
+            {
+                "id": 1,
+                "name": "Wifi",
+                "icon": "wifi"
+            }
+        ],
+        "property_type": {
+            "id": 1,
+            "name": "Residential"
+        },
+        "property_type_category": {
+            "id": 1,
+            "name": "Apartment"
+        },
+        "property_images": [
+            {
+                "id": 1,
+                "image": "http://localhost:8000/media/property_images/front-left-side-47_kQY127d.jpg"
+            },
+            {
+                "id": 2,
+                "image": "http://localhost:8000/media/property_images/front-left-side-47_LXZKmI4.jpg"
+            }
+        ],
+        "property_reviews": [
+            {
+                "id": 1,
+                "rating": 5,
+                "comment": "Good!",
+                "created_at": "2024-02-28T22:44:17.048380+06:00",
+                "updated_at": "2024-02-28T22:54:27.748295+06:00",
+                "property": 1,
+                "user": 1
+            }
+        ],
+        "contact_person": {
+            "id": 1,
+            "email": "admin@gmail.com",
+            "mobile": null,
+            "legal_name": null,
+            "verified": false,
+            "whatsapp": null
+        },
+        "title": "Dubai",
+        "description": "Dubai UAE",
+        "bedrooms": 4,
+        "area_sqft": 680,
+        "google_map_location": "",
+        "available": false,
+        "created_at": "2024-02-28T22:44:17.044664+06:00",
+        "updated_at": "2024-02-28T22:54:27.725293+06:00",
+        "status": "Ready",
+        "price": 40000,
+        "agency": 1,
+        "avg_rating": 5.0
+    }
+]
